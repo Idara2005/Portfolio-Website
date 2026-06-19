@@ -62,7 +62,7 @@ export default function Hero() {
 
             <div className="flex flex-wrap gap-3 sm:gap-4">
               <a
-                href="/cv/Idara_Johnson_CV.pdf"
+                href={`${import.meta.env.BASE_URL}cv/IDARA_JOHNSON_PM_CV.docx`}
                 download
                 className="flex items-center gap-2 px-4 sm:px-6 py-2.5 sm:py-3 rounded-full font-semibold text-sm sm:text-base text-white transition-all duration-200 hover:opacity-90 hover:-translate-y-0.5 shadow-lg"
                 style={{ background: "linear-gradient(135deg,#F97316,#ea6c0a)", boxShadow: "0 8px 24px rgba(249,115,22,0.3)" }}

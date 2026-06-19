@@ -67,8 +67,8 @@ export default function Navbar() {
             </button>
           ))}
           <a
-            href="/portfolio/cv/Idara_Johnson_CV.pdf"
-            download
+            href={`${import.meta.env.BASE_URL}cv/IDARA_JOHNSON_PM_CV.docx`}
+            download="IDARA_JOHNSON_PM_CV.docx"
             className="px-3 py-1.5 lg:px-4 lg:py-2 rounded-full text-xs lg:text-sm font-semibold text-white transition-all duration-200 hover:opacity-90 hover:-translate-y-0.5 whitespace-nowrap"
             style={{ background: "linear-gradient(135deg,#F97316,#5C4033)" }}
           >
@@ -104,8 +104,8 @@ export default function Navbar() {
             </button>
           ))}
           <a
-            href="/portfolio/cv/Idara_Johnson_CV.pdf"
-            download
+            href={`${import.meta.env.BASE_URL}cv/IDARA_JOHNSON_PM_CV.docx`}
+            download="IDARA_JOHNSON_PM_CV.docx"
             className="px-4 py-2.5 rounded-full text-sm font-semibold text-white text-center mt-3"
             style={{ background: "linear-gradient(135deg,#F97316,#5C4033)" }}
           >

@@ -46,7 +46,7 @@ const projects = [
   {
     title: "Open Source Learning Initiative",
     category: "Education Program",
-    image: "breaking-into-tech.jpeg",
+    image: "ai-bootcamp-event.jpeg",
     description: "Created a structured learning initiative to make Open Source more accessible to students. Identified knowledge gaps and designed beginner-friendly content.",
     tags: ["Education Design", "Speaker Coordination", "Community Engagement"],
     color: "#5C4033",
