@@ -56,6 +56,7 @@ const experiences = [
       "Successfully executed media strategy for major tech events",
       "Increased society's digital presence and student engagement",
     ],
+    image: "lasu-exec-card.jpeg",
   },
 ];
 
@@ -176,6 +177,16 @@ export default function Experience() {
                         ))}
                       </div>
                     </div>
+                    {/* Role image */}
+                    {exp.image && (
+                      <div className="mt-4 rounded-xl overflow-hidden" style={{ border: `1px solid ${exp.color}25` }}>
+                        <img
+                          src={`${import.meta.env.BASE_URL}images/${exp.image}`}
+                          alt={exp.role}
+                          className="w-full object-cover"
+                        />
+                      </div>
+                    )}
                   </div>
                 </div>
               ))}
