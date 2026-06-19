@@ -34,21 +34,38 @@ const inputStyle = {
   transition: "border-color 0.2s",
 };
 
+type Status = "idle" | "loading" | "success" | "error";
+
 export default function Contact() {
   const { ref, inView } = useInView();
   const [form, setForm] = useState({ name: "", email: "", subject: "", message: "" });
-  const [sent, setSent] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [status, setStatus] = useState<Status>("idle");
+  const [errorMsg, setErrorMsg] = useState("");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-      setSent(true);
-      setForm({ name: "", email: "", subject: "", message: "" });
-      setTimeout(() => setSent(false), 4000);
-    }, 1200);
+    setStatus("loading");
+    setErrorMsg("");
+
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
+      const data = await res.json();
+      if (res.ok && data.success) {
+        setStatus("success");
+        setForm({ name: "", email: "", subject: "", message: "" });
+        setTimeout(() => setStatus("idle"), 5000);
+      } else {
+        setErrorMsg(data.error || "Something went wrong. Please try again.");
+        setStatus("error");
+      }
+    } catch {
+      setErrorMsg("Could not connect. Please email idarajohnson841@gmail.com directly.");
+      setStatus("error");
+    }
   };
 
   const focusStyle = (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -119,7 +136,7 @@ export default function Contact() {
                 <div className="text-white font-bold text-base sm:text-lg mb-1 sm:mb-2">Download My CV</div>
                 <p className="text-white/80 text-xs sm:text-sm mb-3 sm:mb-4">Get the full picture of my experience, skills, and achievements.</p>
                 <a
-                  href="/portfolio/cv/Idara_Johnson_CV.pdf"
+                  href="/cv/Idara_Johnson_CV.pdf"
                   download
                   className="inline-flex items-center gap-2 px-4 sm:px-5 py-2 sm:py-2.5 rounded-full font-semibold text-xs sm:text-sm"
                   style={{ background: "white", color: "#F97316" }}
@@ -188,19 +205,27 @@ export default function Contact() {
                     onBlur={blurStyle}
                   />
                 </div>
+
+                {/* Error message */}
+                {status === "error" && (
+                  <div className="p-3 rounded-xl text-xs sm:text-sm" style={{ background: "#FEE2E2", color: "#DC2626", border: "1px solid #FECACA" }}>
+                    {errorMsg}
+                  </div>
+                )}
+
                 <button
                   type="submit"
-                  disabled={loading || sent}
-                  className="w-full py-3 sm:py-3.5 rounded-xl font-semibold text-sm sm:text-base text-white flex items-center justify-center gap-2 transition-all duration-200 hover:opacity-90 hover:-translate-y-0.5 disabled:opacity-70"
+                  disabled={status === "loading" || status === "success"}
+                  className="w-full py-3 sm:py-3.5 rounded-xl font-semibold text-sm sm:text-base text-white flex items-center justify-center gap-2 transition-all duration-200 hover:opacity-90 hover:-translate-y-0.5 disabled:opacity-70 disabled:cursor-not-allowed"
                   style={{
-                    background: sent ? "#10B981" : "linear-gradient(135deg,#F97316,#5C4033)",
+                    background: status === "success" ? "#10B981" : "linear-gradient(135deg,#F97316,#5C4033)",
                     boxShadow: "0 8px 24px rgba(249,115,22,0.25)",
                   }}
                 >
-                  {loading ? (
+                  {status === "loading" ? (
                     <><span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />Sending...</>
-                  ) : sent ? (
-                    <>✓ Message Sent! I'll get back to you soon.</>
+                  ) : status === "success" ? (
+                    <>✓ Message sent! I'll get back to you soon.</>
                   ) : (
                     <><Send size={16} />Send Message</>
                   )}

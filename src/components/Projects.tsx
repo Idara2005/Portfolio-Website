@@ -28,7 +28,7 @@ const projects = [
   {
     title: "AgriCoPilot",
     category: "Product Initiative",
-    image: "ai-bootcamp.jpeg",
+    image: "agricopilot-leaf.png",
     description: "Led product management for an agriculture-focused technology initiative aimed at helping farmers make informed decisions through accessible digital solutions.",
     tags: ["Product Discovery", "User Research", "Roadmapping", "AgriTech"],
     color: "#5C4033",
