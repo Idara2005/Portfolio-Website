@@ -32,6 +32,7 @@ const inputStyle = {
   border: "1.5px solid rgba(249,115,22,0.2)",
   color: "#1F2937",
   transition: "border-color 0.2s",
+  fontFamily: "inherit",
 };
 
 type Status = "idle" | "loading" | "success" | "error";
@@ -48,22 +49,35 @@ export default function Contact() {
     setErrorMsg("");
 
     try {
-      const res = await fetch("/api/contact", {
+      const res = await fetch("https://formsubmit.co/ajax/idarajohnson841@gmail.com", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({
+          name: form.name,
+          email: form.email,
+          subject: form.subject,
+          message: form.message,
+          _subject: `[Portfolio] ${form.subject}`,
+          _template: "table",
+          _captcha: "false",
+        }),
       });
+
       const data = await res.json();
-      if (res.ok && data.success) {
+
+      if (res.ok && data.success === "true") {
         setStatus("success");
         setForm({ name: "", email: "", subject: "", message: "" });
-        setTimeout(() => setStatus("idle"), 5000);
+        setTimeout(() => setStatus("idle"), 6000);
       } else {
-        setErrorMsg(data.error || "Something went wrong. Please try again.");
+        setErrorMsg("Something went wrong. Please email idarajohnson841@gmail.com directly.");
         setStatus("error");
       }
     } catch {
-      setErrorMsg("Could not connect. Please email idarajohnson841@gmail.com directly.");
+      setErrorMsg("Network error. Please email idarajohnson841@gmail.com directly.");
       setStatus("error");
     }
   };
@@ -206,7 +220,6 @@ export default function Contact() {
                   />
                 </div>
 
-                {/* Error message */}
                 {status === "error" && (
                   <div className="p-3 rounded-xl text-xs sm:text-sm" style={{ background: "#FEE2E2", color: "#DC2626", border: "1px solid #FECACA" }}>
                     {errorMsg}
@@ -225,11 +238,15 @@ export default function Contact() {
                   {status === "loading" ? (
                     <><span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />Sending...</>
                   ) : status === "success" ? (
-                    <>✓ Message sent! I'll get back to you soon.</>
+                    <>✓ Message sent! Idara will get back to you soon.</>
                   ) : (
                     <><Send size={16} />Send Message</>
                   )}
                 </button>
+
+                <p className="text-center text-xs" style={{ color: "#9CA3AF" }}>
+                  Your message goes directly to Idara's inbox.
+                </p>
               </form>
             </div>
           </div>
