@@ -19,7 +19,8 @@ const projects = [
   {
     title: "Techpulse Community Platform",
     category: "Community Product",
-    image: "techpulse-partner.jpeg",
+    image: "techpulse-logo.jpeg",
+    objectFit: "cover",
     description: "Built and scaled a student-led technology initiative from zero to 1,000+ members. Designed onboarding systems, educational programs, and engagement frameworks.",
     tags: ["Product Strategy", "Community Building", "Program Management", "EdTech"],
     color: "#F97316",
@@ -74,6 +75,7 @@ const projects = [
       title: "LASU TechX 5.0 Partnership",
     category: "Partnerships",
     image: "techpulse-partner.jpeg",
+    objectFit: "contain",
     description: "Developed and managed a strategic partnership with LASU TechX 5.0, a Google Developer Group event, to amplify community exposure and educational opportunities.",
     tags: ["Partnership Dev", "Strategic Communication", "Community Growth", "GDG"],
     color: "#5C4033",
@@ -148,7 +150,7 @@ export default function Projects() {
                   <img
                     src={`${import.meta.env.BASE_URL}images/${project.image}`}
                     alt={project.title}
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                    className="w-full h-full group-hover:scale-110 transition-transform duration-500" style={{ objectFit: project.objectFit as "cover" | "contain" || "cover", background: project.objectFit === "contain" ? "#0a0a2e" : undefined }}
                   />
                   <div
                     className="absolute inset-0"

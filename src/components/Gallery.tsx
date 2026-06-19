@@ -18,7 +18,6 @@ import { useEffect, useRef, useState } from "react";
     { image: "nacos-panelist-bio.jpeg", caption: "NACOS LASUSTECH — AI & The Future Panelist" },
     { image: "lasu-exec-card.jpeg", caption: "LASU Tech Society — Director of Media & Publicity" },
     { image: "panel1.jpeg", caption: "Conversations That Built Me — Panelist" },
-    { image: "panel2.jpeg", caption: "Speaking Engagement" },
       { image: "ai-bootcamp-event.jpeg", caption: "AI Bootcamp Event" },
     { image: "breaking-into-tech.jpeg", caption: "Breaking Into Tech Webinar" },
     { image: "web3-talk.jpeg", caption: "Web3 Educational Talk" },
