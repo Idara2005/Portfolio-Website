@@ -1,17 +1,17 @@
 import { useEffect, useRef, useState } from "react";
-import { ExternalLink, Tag } from "lucide-react";
+import { Tag } from "lucide-react";
 
-function useInView() {
+function useInView(threshold = 0.05) {
   const ref = useRef<HTMLDivElement>(null);
   const [inView, setInView] = useState(false);
   useEffect(() => {
     const obs = new IntersectionObserver(
       ([e]) => { if (e.isIntersecting) setInView(true); },
-      { threshold: 0.1 }
+      { threshold }
     );
     if (ref.current) obs.observe(ref.current);
     return () => obs.disconnect();
-  }, []);
+  }, [threshold]);
   return { ref, inView };
 }
 
@@ -19,8 +19,8 @@ const projects = [
   {
     title: "Techpulse Community Platform",
     category: "Community Product",
-    image: "/images/techpulse-partner.jpeg",
-    description: "Built and scaled a student-led technology initiative from zero to 1,000+ members. Designed onboarding systems, educational programs, and engagement frameworks to help students navigate tech careers.",
+    image: "techpulse-partner.jpeg",
+    description: "Built and scaled a student-led technology initiative from zero to 1,000+ members. Designed onboarding systems, educational programs, and engagement frameworks.",
     tags: ["Product Strategy", "Community Building", "Program Management", "EdTech"],
     color: "#F97316",
     highlight: "1,000+ members",
@@ -28,8 +28,8 @@ const projects = [
   {
     title: "AgriCoPilot",
     category: "Product Initiative",
-    image: "/images/ai-bootcamp.jpeg",
-    description: "Led product management for an agriculture-focused technology initiative aimed at helping farmers make informed decisions through accessible digital solutions and information.",
+    image: "ai-bootcamp.jpeg",
+    description: "Led product management for an agriculture-focused technology initiative aimed at helping farmers make informed decisions through accessible digital solutions.",
     tags: ["Product Discovery", "User Research", "Roadmapping", "AgriTech"],
     color: "#5C4033",
     highlight: "Product Led",
@@ -37,8 +37,8 @@ const projects = [
   {
     title: "Web3 Educational Webinar Series",
     category: "Learning Initiative",
-    image: "/images/web3-talk.jpeg",
-    description: "Identified a gap in Web3 understanding among beginners. Designed and executed a structured webinar series making complex Web3 concepts accessible to students and early-career professionals.",
+    image: "web3-talk.jpeg",
+    description: "Designed and executed a structured webinar series making complex Web3 concepts accessible to students and early-career professionals.",
     tags: ["Program Management", "Stakeholder Mgmt", "Content Strategy", "Web3"],
     color: "#F97316",
     highlight: "Community Impact",
@@ -46,17 +46,17 @@ const projects = [
   {
     title: "Open Source Learning Initiative",
     category: "Education Program",
-    image: "/images/breaking-into-tech.jpeg",
-    description: "Created a structured learning initiative to make Open Source more accessible to students. Identified knowledge gaps, designed beginner-friendly content, and coordinated speaker outreach.",
-    tags: ["Education Design", "Speaker Coordination", "Community Engagement", "Open Source"],
+    image: "breaking-into-tech.jpeg",
+    description: "Created a structured learning initiative to make Open Source more accessible to students. Identified knowledge gaps and designed beginner-friendly content.",
+    tags: ["Education Design", "Speaker Coordination", "Community Engagement"],
     color: "#5C4033",
     highlight: "Accessibility Focused",
   },
   {
     title: "Breaking Into Tech Webinar",
     category: "Event Production",
-    image: "/images/breaking-into-tech.jpeg",
-    description: "Hosted and moderated a multi-session webinar series featuring industry professionals across software engineering, AI, product management, and data analysis. Achieved strong attendance and engagement.",
+    image: "breaking-into-tech.jpeg",
+    description: "Hosted and moderated a multi-session webinar series featuring industry professionals across software engineering, AI, product management, and data analysis.",
     tags: ["Event Management", "Moderation", "Facilitation", "Community"],
     color: "#F97316",
     highlight: "Multi-session Event",
@@ -64,23 +64,24 @@ const projects = [
   {
     title: "LASU TechX 5.0 Partnership",
     category: "Partnerships",
-    image: "/images/techpulse-partner.jpeg",
-    description: "Developed and managed a strategic partnership with LASU TechX 5.0, a Google Developer Group event. Coordinated collaboration to amplify community exposure and educational opportunities.",
+    image: "techpulse-partner.jpeg",
+    description: "Developed and managed a strategic partnership with LASU TechX 5.0, a Google Developer Group event, to amplify community exposure and educational opportunities.",
     tags: ["Partnership Dev", "Strategic Communication", "Community Growth", "GDG"],
     color: "#5C4033",
     highlight: "Strategic Partnership",
   },
 ];
 
+const filters = ["All", "Community Product", "Product Initiative", "Learning Initiative", "Event Production"];
+
 export default function Projects() {
   const { ref, inView } = useInView();
   const [filter, setFilter] = useState("All");
 
-  const categories = ["All", "Community Product", "Product Initiative", "Learning Initiative", "Education Program", "Event Production", "Partnerships"];
   const filtered = filter === "All" ? projects : projects.filter(p => p.category === filter);
 
   return (
-    <section id="projects" className="py-24 px-6" style={{ background: "#FFF8F1" }}>
+    <section id="projects" className="py-16 sm:py-20 lg:py-24 px-4 sm:px-6 lg:px-8" style={{ background: "#FFF8F1" }}>
       <div className="max-w-6xl mx-auto">
         <div
           ref={ref}
@@ -90,23 +91,24 @@ export default function Projects() {
             transition: "all 0.8s cubic-bezier(0.4,0,0.2,1)",
           }}
         >
-          <div className="text-center mb-16">
-            <p className="text-sm font-semibold uppercase tracking-widest mb-3" style={{ color: "#F97316" }}>Portfolio</p>
-            <h2 className="text-4xl lg:text-5xl font-bold mb-4" style={{ color: "#1F2937" }}>
+          <div className="text-center mb-10 sm:mb-16">
+            <p className="text-xs sm:text-sm font-semibold uppercase tracking-widest mb-2 sm:mb-3" style={{ color: "#F97316" }}>Portfolio</p>
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-3 sm:mb-4" style={{ color: "#1F2937" }}>
               Featured{" "}
               <span className="gradient-text">Projects</span>
             </h2>
-            <p className="text-lg max-w-2xl mx-auto" style={{ color: "#6B7280" }}>
+            <p className="text-sm sm:text-base lg:text-lg max-w-2xl mx-auto px-4" style={{ color: "#6B7280" }}>
               Initiatives and products I've built, led, and delivered — from concept to impact.
             </p>
           </div>
 
-          <div className="flex flex-wrap justify-center gap-2 mb-12">
-            {["All", "Community Product", "Product Initiative", "Learning Initiative", "Event Production"].map((cat) => (
+          {/* Filter buttons */}
+          <div className="flex flex-wrap justify-center gap-2 mb-8 sm:mb-12">
+            {filters.map((cat) => (
               <button
                 key={cat}
                 onClick={() => setFilter(cat)}
-                className="px-4 py-2 rounded-full text-sm font-medium transition-all duration-200"
+                className="px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-medium transition-all duration-200"
                 style={
                   filter === cat
                     ? { background: "linear-gradient(135deg,#F97316,#5C4033)", color: "white" }
@@ -118,11 +120,12 @@ export default function Projects() {
             ))}
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {/* Projects grid */}
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
             {filtered.map((project, i) => (
               <div
                 key={project.title}
-                className="rounded-2xl overflow-hidden card-hover group"
+                className="rounded-xl sm:rounded-2xl overflow-hidden card-hover group"
                 style={{
                   background: "#FFFFFF",
                   border: "1px solid rgba(249,115,22,0.1)",
@@ -132,9 +135,9 @@ export default function Projects() {
                   transition: `all 0.7s cubic-bezier(0.4,0,0.2,1) ${i * 0.1}s`,
                 }}
               >
-                <div className="relative overflow-hidden h-48">
+                <div className="relative overflow-hidden" style={{ aspectRatio: "16/9" }}>
                   <img
-                    src={project.image}
+                    src={`${import.meta.env.BASE_URL}images/${project.image}`}
                     alt={project.title}
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                   />
@@ -143,30 +146,30 @@ export default function Projects() {
                     style={{ background: `linear-gradient(to top, ${project.color}cc, transparent 60%)` }}
                   />
                   <span
-                    className="absolute top-3 right-3 px-3 py-1 rounded-full text-xs font-semibold"
+                    className="absolute top-2 sm:top-3 right-2 sm:right-3 px-2 sm:px-3 py-1 rounded-full text-xs font-semibold"
                     style={{ background: "rgba(255,255,255,0.9)", color: project.color }}
                   >
                     {project.highlight}
                   </span>
                   <span
-                    className="absolute bottom-3 left-3 text-xs font-medium px-2 py-1 rounded-full"
+                    className="absolute bottom-2 sm:bottom-3 left-2 sm:left-3 text-xs font-medium px-2 py-0.5 sm:py-1 rounded-full"
                     style={{ background: "rgba(255,255,255,0.15)", color: "white", backdropFilter: "blur(4px)" }}
                   >
                     {project.category}
                   </span>
                 </div>
 
-                <div className="p-5">
-                  <h3 className="font-bold text-base mb-2" style={{ color: "#1F2937" }}>{project.title}</h3>
-                  <p className="text-sm leading-relaxed mb-4" style={{ color: "#6B7280" }}>{project.description}</p>
-                  <div className="flex flex-wrap gap-1.5">
+                <div className="p-3 sm:p-5">
+                  <h3 className="font-bold text-sm sm:text-base mb-1.5 sm:mb-2" style={{ color: "#1F2937" }}>{project.title}</h3>
+                  <p className="text-xs sm:text-sm leading-relaxed mb-3 sm:mb-4" style={{ color: "#6B7280" }}>{project.description}</p>
+                  <div className="flex flex-wrap gap-1 sm:gap-1.5">
                     {project.tags.map((tag) => (
                       <span
                         key={tag}
-                        className="flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium"
+                        className="flex items-center gap-1 px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-full text-xs font-medium"
                         style={{ background: `${project.color}10`, color: project.color }}
                       >
-                        <Tag size={10} />
+                        <Tag size={9} />
                         {tag}
                       </span>
                     ))}

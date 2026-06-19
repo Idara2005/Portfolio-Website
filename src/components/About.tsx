@@ -1,23 +1,22 @@
 import { useEffect, useRef, useState } from "react";
 import { Target, Heart, Lightbulb, Users } from "lucide-react";
 
-function useInView() {
+function useInView(threshold = 0.1) {
   const ref = useRef<HTMLDivElement>(null);
   const [inView, setInView] = useState(false);
   useEffect(() => {
     const obs = new IntersectionObserver(
       ([e]) => { if (e.isIntersecting) setInView(true); },
-      { threshold: 0.15 }
+      { threshold }
     );
     if (ref.current) obs.observe(ref.current);
     return () => obs.disconnect();
-  }, []);
+  }, [threshold]);
   return { ref, inView };
 }
 
-function AnimatedCounter({ target, suffix = "" }: { target: number; suffix?: string }) {
+function AnimatedCounter({ target, suffix = "", inView }: { target: number; suffix?: string; inView: boolean }) {
   const [count, setCount] = useState(0);
-  const { ref, inView } = useInView();
   useEffect(() => {
     if (!inView) return;
     let start = 0;
@@ -29,7 +28,7 @@ function AnimatedCounter({ target, suffix = "" }: { target: number; suffix?: str
     }, 30);
     return () => clearInterval(timer);
   }, [inView, target]);
-  return <span ref={ref}>{count}{suffix}</span>;
+  return <span>{count}{suffix}</span>;
 }
 
 const values = [
@@ -50,7 +49,7 @@ export default function About() {
   const { ref, inView } = useInView();
 
   return (
-    <section id="about" className="py-24 px-6" style={{ background: "#FFFFFF" }}>
+    <section id="about" className="py-16 sm:py-20 lg:py-24 px-4 sm:px-6 lg:px-8" style={{ background: "#FFFFFF" }}>
       <div className="max-w-6xl mx-auto">
         <div
           ref={ref}
@@ -60,23 +59,25 @@ export default function About() {
             transition: "all 0.8s cubic-bezier(0.4,0,0.2,1)",
           }}
         >
-          <div className="text-center mb-16">
-            <p className="text-sm font-semibold uppercase tracking-widest mb-3" style={{ color: "#F97316" }}>About Me</p>
-            <h2 className="text-4xl lg:text-5xl font-bold mb-4" style={{ color: "#1F2937" }}>
+          {/* Header */}
+          <div className="text-center mb-10 sm:mb-16">
+            <p className="text-xs sm:text-sm font-semibold uppercase tracking-widest mb-2 sm:mb-3" style={{ color: "#F97316" }}>About Me</p>
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-3 sm:mb-4" style={{ color: "#1F2937" }}>
               Building with{" "}
               <span className="gradient-text">Purpose</span>
             </h2>
-            <p className="text-lg max-w-2xl mx-auto" style={{ color: "#6B7280" }}>
+            <p className="text-sm sm:text-base lg:text-lg max-w-2xl mx-auto px-4" style={{ color: "#6B7280" }}>
               I believe the best products begin with understanding people.
             </p>
           </div>
 
-          <div className="grid lg:grid-cols-2 gap-16 items-start mb-20">
+          {/* Content grid */}
+          <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-start mb-12 sm:mb-20">
             <div>
-              <h3 className="text-2xl font-bold mb-6" style={{ color: "#1F2937" }}>My Story</h3>
-              <div className="space-y-4 text-base leading-relaxed" style={{ color: "#4B5563" }}>
+              <h3 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6" style={{ color: "#1F2937" }}>My Story</h3>
+              <div className="space-y-3 sm:space-y-4 text-sm sm:text-base leading-relaxed" style={{ color: "#4B5563" }}>
                 <p>
-                  I'm an early-career Product Manager with hands-on experience building and managing community-driven products, educational programs, and user-focused initiatives. As the founder of <strong style={{ color: "#F97316" }}>Techpulse</strong>, I've grown a tech community of over 1,000 members dedicated to helping students and early-career professionals navigate technology and access opportunities.
+                  I'm an early-career Product Manager with hands-on experience building and managing community-driven products, educational programs, and user-focused initiatives. As the founder of <strong style={{ color: "#F97316" }}>Techpulse</strong>, I've grown a tech community of over 1,000 members dedicated to helping students and early-career professionals navigate technology.
                 </p>
                 <p>
                   My approach to product management is rooted in identifying real problems, designing intentional solutions, and continuously improving through feedback and collaboration. I work at the intersection of technology, digital growth, and community building.
@@ -91,16 +92,20 @@ export default function About() {
             </div>
 
             <div>
-              <h3 className="text-2xl font-bold mb-6" style={{ color: "#1F2937" }}>My Values</h3>
-              <div className="grid grid-cols-1 gap-4">
+              <h3 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6" style={{ color: "#1F2937" }}>My Values</h3>
+              <div className="grid gap-3 sm:gap-4">
                 {values.map((v) => (
-                  <div key={v.title} className="flex gap-4 p-4 rounded-2xl card-hover" style={{ background: "#FFF8F1", border: "1px solid rgba(249,115,22,0.1)" }}>
-                    <div className="flex-shrink-0 w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: "linear-gradient(135deg,#F97316,#5C4033)" }}>
-                      <v.icon size={18} color="white" />
+                  <div
+                    key={v.title}
+                    className="flex gap-3 sm:gap-4 p-3 sm:p-4 rounded-xl sm:rounded-2xl card-hover"
+                    style={{ background: "#FFF8F1", border: "1px solid rgba(249,115,22,0.1)" }}
+                  >
+                    <div className="flex-shrink-0 w-9 h-9 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl flex items-center justify-center" style={{ background: "linear-gradient(135deg,#F97316,#5C4033)" }}>
+                      <v.icon size={16} color="white" />
                     </div>
-                    <div>
-                      <div className="font-semibold mb-1" style={{ color: "#1F2937" }}>{v.title}</div>
-                      <div className="text-sm" style={{ color: "#6B7280" }}>{v.desc}</div>
+                    <div className="min-w-0">
+                      <div className="font-semibold text-sm sm:text-base mb-0.5 sm:mb-1" style={{ color: "#1F2937" }}>{v.title}</div>
+                      <div className="text-xs sm:text-sm" style={{ color: "#6B7280" }}>{v.desc}</div>
                     </div>
                   </div>
                 ))}
@@ -108,16 +113,17 @@ export default function About() {
             </div>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+          {/* Stats */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-6">
             {stats.map((s) => (
               <div
                 key={s.label}
-                className="text-center p-6 rounded-2xl glass-card card-hover"
+                className="text-center p-4 sm:p-6 rounded-xl sm:rounded-2xl glass-card card-hover"
               >
-                <div className="text-4xl font-bold gradient-text mb-2">
-                  <AnimatedCounter target={s.num} suffix={s.suffix} />
+                <div className="text-2xl sm:text-3xl lg:text-4xl font-bold gradient-text mb-1 sm:mb-2">
+                  <AnimatedCounter target={s.num} suffix={s.suffix} inView={inView} />
                 </div>
-                <div className="text-sm font-medium" style={{ color: "#6B7280" }}>{s.label}</div>
+                <div className="text-xs sm:text-sm font-medium" style={{ color: "#6B7280" }}>{s.label}</div>
               </div>
             ))}
           </div>
