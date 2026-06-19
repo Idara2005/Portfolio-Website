@@ -1,0 +1,165 @@
+import { useEffect, useRef, useState } from "react";
+
+function useInView() {
+  const ref = useRef<HTMLDivElement>(null);
+  const [inView, setInView] = useState(false);
+  useEffect(() => {
+    const obs = new IntersectionObserver(
+      ([e]) => { if (e.isIntersecting) setInView(true); },
+      { threshold: 0.1 }
+    );
+    if (ref.current) obs.observe(ref.current);
+    return () => obs.disconnect();
+  }, []);
+  return { ref, inView };
+}
+
+const skillCategories = [
+  {
+    title: "Product Management",
+    color: "#F97316",
+    skills: [
+      { name: "Product Strategy", level: 88 },
+      { name: "Product Discovery", level: 85 },
+      { name: "User Research", level: 87 },
+      { name: "Requirements Gathering", level: 90 },
+      { name: "Feature Prioritization", level: 85 },
+      { name: "Product Roadmapping", level: 82 },
+    ],
+  },
+  {
+    title: "Program & Project Management",
+    color: "#5C4033",
+    skills: [
+      { name: "Program Management", level: 90 },
+      { name: "Project Planning & Execution", level: 88 },
+      { name: "Stakeholder Management", level: 86 },
+      { name: "Cross-functional Collaboration", level: 90 },
+      { name: "Operations Management", level: 85 },
+      { name: "Risk Management", level: 80 },
+    ],
+  },
+  {
+    title: "Community & Growth",
+    color: "#F97316",
+    skills: [
+      { name: "Community Building", level: 95 },
+      { name: "Community Operations", level: 92 },
+      { name: "Event Planning & Execution", level: 90 },
+      { name: "Partnership Development", level: 85 },
+      { name: "Strategic Communication", level: 88 },
+      { name: "User Engagement", level: 92 },
+    ],
+  },
+];
+
+const tools = [
+  "Notion", "Google Workspace", "Microsoft Office", "Canva", "Figma",
+  "Trello", "Asana", "Google Analytics", "Linear", "Slack",
+];
+
+const softSkills = [
+  "Systems Thinking", "Public Speaking", "Facilitation", "Leadership",
+  "Problem Solving", "Adaptability", "Empathy", "Strategic Thinking",
+];
+
+function SkillBar({ name, level, color, animate }: { name: string; level: number; color: string; animate: boolean }) {
+  return (
+    <div className="mb-4">
+      <div className="flex justify-between items-center mb-1.5">
+        <span className="text-sm font-medium" style={{ color: "#1F2937" }}>{name}</span>
+        <span className="text-xs font-semibold" style={{ color }}>{level}%</span>
+      </div>
+      <div className="h-2 rounded-full overflow-hidden" style={{ background: "rgba(249,115,22,0.1)" }}>
+        <div
+          className="h-full rounded-full transition-all duration-1000"
+          style={{
+            width: animate ? `${level}%` : "0%",
+            background: `linear-gradient(90deg, ${color}, ${color === "#F97316" ? "#ea6c0a" : "#4a3028"})`,
+            transition: "width 1.2s cubic-bezier(0.4,0,0.2,1)",
+          }}
+        />
+      </div>
+    </div>
+  );
+}
+
+export default function Skills() {
+  const { ref, inView } = useInView();
+
+  return (
+    <section id="skills" className="py-24 px-6" style={{ background: "#FFF8F1" }}>
+      <div className="max-w-6xl mx-auto">
+        <div
+          ref={ref}
+          style={{
+            opacity: inView ? 1 : 0,
+            transform: inView ? "none" : "translateY(30px)",
+            transition: "all 0.8s cubic-bezier(0.4,0,0.2,1)",
+          }}
+        >
+          <div className="text-center mb-16">
+            <p className="text-sm font-semibold uppercase tracking-widest mb-3" style={{ color: "#F97316" }}>Expertise</p>
+            <h2 className="text-4xl lg:text-5xl font-bold mb-4" style={{ color: "#1F2937" }}>
+              Skills &{" "}
+              <span className="gradient-text">Expertise</span>
+            </h2>
+            <p className="text-lg max-w-2xl mx-auto" style={{ color: "#6B7280" }}>
+              A comprehensive toolkit built through hands-on experience in product, community, and program management.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-8 mb-12">
+            {skillCategories.map((cat) => (
+              <div
+                key={cat.title}
+                className="p-6 rounded-2xl card-hover"
+                style={{ background: "#FFFFFF", border: "1px solid rgba(249,115,22,0.1)", boxShadow: "0 4px 16px rgba(92,64,51,0.06)" }}
+              >
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="w-3 h-3 rounded-full" style={{ background: cat.color }} />
+                  <h3 className="font-bold text-base" style={{ color: "#1F2937" }}>{cat.title}</h3>
+                </div>
+                {cat.skills.map((s) => (
+                  <SkillBar key={s.name} name={s.name} level={s.level} color={cat.color} animate={inView} />
+                ))}
+              </div>
+            ))}
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-8">
+            <div className="p-6 rounded-2xl" style={{ background: "#FFFFFF", border: "1px solid rgba(249,115,22,0.1)" }}>
+              <h3 className="font-bold text-lg mb-5" style={{ color: "#1F2937" }}>Tools & Platforms</h3>
+              <div className="flex flex-wrap gap-3">
+                {tools.map((t) => (
+                  <span
+                    key={t}
+                    className="px-4 py-2 rounded-full text-sm font-medium card-hover cursor-default"
+                    style={{ background: "rgba(249,115,22,0.08)", color: "#F97316", border: "1px solid rgba(249,115,22,0.2)" }}
+                  >
+                    {t}
+                  </span>
+                ))}
+              </div>
+            </div>
+
+            <div className="p-6 rounded-2xl" style={{ background: "#FFFFFF", border: "1px solid rgba(249,115,22,0.1)" }}>
+              <h3 className="font-bold text-lg mb-5" style={{ color: "#1F2937" }}>Soft Skills</h3>
+              <div className="flex flex-wrap gap-3">
+                {softSkills.map((s) => (
+                  <span
+                    key={s}
+                    className="px-4 py-2 rounded-full text-sm font-medium card-hover cursor-default"
+                    style={{ background: "rgba(92,64,51,0.08)", color: "#5C4033", border: "1px solid rgba(92,64,51,0.2)" }}
+                  >
+                    {s}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
