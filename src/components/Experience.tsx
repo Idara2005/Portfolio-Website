@@ -37,6 +37,7 @@ const experiences = [
       "Successfully organized multiple educational webinars and learning sessions",
       "Built partnerships with technology communities and organizations",
     ],
+    image: "techpulse-logo.jpeg",
   },
   {
     role: "Director of Media & Publicity",

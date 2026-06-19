@@ -6,6 +6,7 @@ import Experience from "../components/Experience";
 import Projects from "../components/Projects";
 import Achievements from "../components/Achievements";
 import Contact from "../components/Contact";
+import Gallery from "../components/Gallery";
 import Footer from "../components/Footer";
 
 export default function Portfolio() {
@@ -19,6 +20,7 @@ export default function Portfolio() {
         <Experience />
         <Projects />
         <Achievements />
+        <Gallery />
         <Contact />
       </main>
       <Footer />

@@ -62,7 +62,16 @@ const projects = [
     highlight: "Multi-session Event",
   },
   {
-    title: "LASU TechX 5.0 Partnership",
+      title: "Techpulse × URI Sales Academy Partnership",
+      category: "Partnerships",
+      image: "uri-partnership.jpeg",
+      description: "Secured and managed a strategic community partnership with URI Sales Academy to equip Techpulse members with practical, revenue-generating digital sales skills and improve employability outcomes.",
+      tags: ["Partnership Dev", "Community Growth", "Strategic Communication", "Sales"],
+      color: "#F97316",
+      highlight: "Community Partnership",
+    },
+    {
+      title: "LASU TechX 5.0 Partnership",
     category: "Partnerships",
     image: "techpulse-partner.jpeg",
     description: "Developed and managed a strategic partnership with LASU TechX 5.0, a Google Developer Group event, to amplify community exposure and educational opportunities.",
@@ -72,7 +81,7 @@ const projects = [
   },
 ];
 
-const filters = ["All", "Community Product", "Product Initiative", "Learning Initiative", "Event Production"];
+const filters = ["All", "Community Product", "Product Initiative", "Learning Initiative", "Event Production", "Partnerships"];
 
 export default function Projects() {
   const { ref, inView } = useInView();
