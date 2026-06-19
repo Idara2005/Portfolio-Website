@@ -20,7 +20,7 @@ const speakingEngagements = [
     title: "AI & The Future: How Women Can Lead in Emerging Technologies",
     org: "NACOS LASUSTECH",
     role: "Panelist",
-    image: "lasu-id.jpeg",
+    image: "nacos-panelist-bio.jpeg",
     desc: "Shared perspectives on AI, emerging technologies, and the future of women in technology. Discussed opportunities, challenges, and skills required to thrive.",
     color: "#F97316",
   },
