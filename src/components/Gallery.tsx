@@ -21,10 +21,8 @@ import { useEffect, useRef, useState } from "react";
       { image: "ai-bootcamp-event.jpeg", caption: "AI Bootcamp Event" },
     { image: "breaking-into-tech.jpeg", caption: "Breaking Into Tech Webinar" },
     { image: "web3-talk.jpeg", caption: "Web3 Educational Talk" },
-    { image: "partnership.jpeg", caption: "Strategic Partnership" },
     { image: "techpulse-partner.jpeg", caption: "Techpulse Community" },
     { image: "uri-partnership.jpeg", caption: "Techpulse × URI Sales Academy Partnership" },
-    { image: "lasu-id.jpeg", caption: "LASU Tech Society Event" },
   ];
 
   export default function Gallery() {
