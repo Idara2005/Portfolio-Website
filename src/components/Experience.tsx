@@ -150,7 +150,17 @@ export default function Experience() {
                       </div>
                     </div>
 
-                    <p className="text-xs sm:text-sm leading-relaxed mb-3 sm:mb-4" style={{ color: "#4B5563" }}>{exp.desc}</p>
+                    {/* Role image */}
+                      {exp.image && (
+                        <div className="mb-3 sm:mb-4 rounded-xl overflow-hidden" style={{ border: `1px solid ${exp.color}25` }}>
+                          <img
+                            src={`${import.meta.env.BASE_URL}images/${exp.image}`}
+                            alt={exp.role}
+                            className="w-full object-cover"
+                          />
+                        </div>
+                      )}
+                      <p className="text-xs sm:text-sm leading-relaxed mb-3 sm:mb-4" style={{ color: "#4B5563" }}>{exp.desc}</p>
 
                     <div className="mb-3 sm:mb-4">
                       <div className="font-semibold text-xs sm:text-sm mb-2" style={{ color: "#1F2937" }}>Key Responsibilities</div>
@@ -178,16 +188,6 @@ export default function Experience() {
                         ))}
                       </div>
                     </div>
-                    {/* Role image */}
-                    {exp.image && (
-                      <div className="mt-4 rounded-xl overflow-hidden" style={{ border: `1px solid ${exp.color}25` }}>
-                        <img
-                          src={`${import.meta.env.BASE_URL}images/${exp.image}`}
-                          alt={exp.role}
-                          className="w-full object-cover"
-                        />
-                      </div>
-                    )}
                   </div>
                 </div>
               ))}
