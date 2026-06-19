@@ -1,9 +1,5 @@
 {
   "rewrites": [
-    { "source": "/api/(.*)", "destination": "/api/$1" },
     { "source": "/((?!api/).*)", "destination": "/index.html" }
-  ],
-  "env": {
-    "GMAIL_APP_PASSWORD": "@gmail_app_password"
-  }
+  ]
 }
